@@ -1,0 +1,85 @@
+from pathlib import Path
+import re
+import unittest
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+class TutorialSiteStructureTest(unittest.TestCase):
+    def test_required_files_and_directories_exist(self):
+        required_paths = [
+            "mkdocs.yml",
+            "README.md",
+            "requirements.txt",
+            ".github/workflows/deploy.yml",
+            "docs/index.md",
+            "docs/tutorials/index.md",
+            "docs/tutorials/example-python-workflow.md",
+            "docs/notebooks/index.md",
+            "notebooks/example_python_workflow.ipynb",
+            "notebooks/marimo_example.py",
+        ]
+
+        missing = [path for path in required_paths if not (ROOT / path).exists()]
+        self.assertEqual(missing, [])
+
+    def test_mkdocs_uses_material_and_expected_sections(self):
+        config = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
+
+        self.assertIn("name: material", config)
+        for section in [
+            "Home",
+            "Tutorials",
+            "Notebooks",
+        ]:
+            self.assertRegex(config, rf"\b{re.escape(section)}\b")
+
+    def test_landing_page_links_to_tutorial_cards(self):
+        index = (ROOT / "docs" / "index.md").read_text(encoding="utf-8")
+
+        self.assertIn("grid cards", index)
+        self.assertIn("tutorials/example-python-workflow.md", index)
+        self.assertIn("notebooks/", index)
+
+    def test_ipynb_notebooks_have_colab_badges(self):
+        notebooks = sorted((ROOT / "notebooks").glob("*.ipynb"))
+        self.assertTrue(notebooks)
+
+        notebook_index = (ROOT / "docs" / "notebooks" / "index.md").read_text(
+            encoding="utf-8"
+        )
+        for notebook in notebooks:
+            path = notebook.relative_to(ROOT).as_posix()
+            self.assertIn("colab-badge.svg", notebook_index)
+            self.assertIn(
+                f"github/zfg2013/Codeguide/blob/main/{path}", notebook_index
+            )
+
+    def test_workflow_deploys_pages_and_exports_marimo_wasm(self):
+        workflow = (ROOT / ".github" / "workflows" / "deploy.yml").read_text(
+            encoding="utf-8"
+        )
+
+        for expected in [
+            "marimo export html-wasm",
+            "--mode run",
+            "actions/configure-pages@v5",
+            "actions/upload-pages-artifact@v3",
+            "actions/deploy-pages@v4",
+        ]:
+            self.assertIn(expected, workflow)
+
+    def test_markdown_files_have_titles(self):
+        markdown_files = sorted((ROOT / "docs").rglob("*.md"))
+        missing_title = [
+            str(path.relative_to(ROOT))
+            for path in markdown_files
+            if not path.read_text(encoding="utf-8").lstrip().startswith("# ")
+        ]
+
+        self.assertEqual(missing_title, [])
+
+
+if __name__ == "__main__":
+    unittest.main()
