@@ -17,9 +17,9 @@ def _():
 def _(mo):
     mo.md(
         """
-        # Example Python Workflow
+        # marimo WASM Example
 
-        This executable notebook computes summary metrics for a small numeric dataset.
+        This executable marimo notebook computes summary metrics for a small numeric dataset.
         """
     )
     return

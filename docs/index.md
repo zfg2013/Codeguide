@@ -1,26 +1,26 @@
 # Codeguide
 
-Codeguide is a static tutorial wiki for practical programming notes, reproducible walkthroughs, and lightweight executable notebooks.
+Codeguide is a static tutorial wiki for executable marimo WASM notebooks. Each notebook is authored as a marimo `.py` file and exported to browser-runnable HTML during the GitHub Pages build.
 
 ## Start Here
 
 <div class="grid cards" markdown>
 
-- **Example Python Workflow**
+- **Executable Notebook**
 
-    Load a small dataset, compute summary metrics with vectorized Python, and compare the Markdown, Jupyter, and marimo versions.
+    Open the sample marimo WASM notebook as a static browser page generated from the source notebook.
 
-    [Open tutorial](tutorials/example-python-workflow.md)
+    [Open notebook](notebooks/marimo-example/)
 
 - **Notebook Library**
 
-    Launch Jupyter notebooks in Colab or open browser-executable marimo notebooks exported during the Pages build.
+    Browse source notebooks and their exported static WASM pages.
 
     [Browse notebooks](notebooks/index.md)
 
 - **Tutorial Index**
 
-    See all written guides and use the existing structure as the template for new tutorial pages.
+    See how to add new marimo notebooks to the wiki and deployment workflow.
 
     [View tutorials](tutorials/index.md)
 
@@ -28,7 +28,7 @@ Codeguide is a static tutorial wiki for practical programming notes, reproducibl
 
 ## Publishing Flow
 
-Changes pushed to `main` run the GitHub Actions workflow. The workflow checks the repository structure, exports the marimo notebook to a WASM page, builds MkDocs in strict mode, and deploys the generated `site/` artifact to GitHub Pages.
+Changes pushed to `main` run the GitHub Actions workflow. The workflow checks the repository structure, exports every `notebooks/*.py` marimo notebook to a WASM page, builds MkDocs in strict mode, and deploys the generated `site/` artifact to GitHub Pages.
 
 ## Local Checks
 

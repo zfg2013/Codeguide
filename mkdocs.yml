@@ -1,5 +1,5 @@
 site_name: Codeguide
-site_description: A GitHub Pages tutorial site for practical coding guides and executable notebooks.
+site_description: A GitHub Pages tutorial site for executable marimo WASM notebooks.
 repo_name: zfg2013/Codeguide
 repo_url: https://github.com/zfg2013/Codeguide
 docs_dir: docs
@@ -33,5 +33,4 @@ nav:
   - Home: index.md
   - Tutorials:
       - Overview: tutorials/index.md
-      - Example Python Workflow: tutorials/example-python-workflow.md
   - Notebooks: notebooks/index.md

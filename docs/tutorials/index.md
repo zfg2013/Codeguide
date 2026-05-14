@@ -1,7 +1,14 @@
 # Tutorials
 
-Codeguide tutorials are short, task-focused walkthroughs. Each page should explain the goal, show the smallest useful workflow, and link to executable notebook assets when they help.
+Codeguide tutorials are centered on executable marimo WASM notebooks. Use this section to explain notebook purpose, inputs, outputs, and how readers should interpret the interactive page.
 
-## Available Tutorials
+## Available Notebook Tutorial
 
-- [Example Python Workflow](example-python-workflow.md): load a small dataset, compute summary statistics, and connect the written guide to notebook versions.
+- [marimo example notebook](../notebooks/marimo-example/): a static WASM export generated from `notebooks/marimo_example.py`.
+
+## Add A Tutorial
+
+1. Add a marimo notebook under `notebooks/`.
+2. Link its exported page from `docs/notebooks/index.md`.
+3. Add a short entry here describing what the notebook teaches.
+4. Run the tests and strict MkDocs build before publishing.
