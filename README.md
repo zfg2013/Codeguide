@@ -1,12 +1,12 @@
 # Codeguide
 
-Codeguide is a GitHub Pages tutorial site built with MkDocs Material and marimo WASM exports. It is structured as a small wiki: Markdown pages organize the catalog, and marimo `.py` notebooks provide the executable browser pages.
+Codeguide is a GitHub Pages tutorial curriculum built with MkDocs Material and marimo WASM exports. Markdown pages organize the modules, and marimo `.py` notebooks provide executable browser pages.
 
 ## Repository Layout
 
 - `docs/index.md`: wiki-style landing page with marimo notebook cards.
-- `docs/tutorials/`: short tutorial index pages for executable notebooks.
-- `docs/notebooks/`: notebook landing page and generated marimo WASM exports.
+- `docs/tutorials/`: module pages for the executable notebook curriculum.
+- `docs/notebooks/`: notebook library linking to exported marimo HTML files.
 - `notebooks/`: source marimo `.py` notebooks.
 - `.github/workflows/deploy.yml`: GitHub Actions workflow for GitHub Pages.
 - `tests/`: structure checks for the tutorial site.
@@ -27,19 +27,20 @@ Open the local URL printed by MkDocs, usually `http://127.0.0.1:8000`.
 Create and edit notebooks in the `notebooks/` directory:
 
 ```powershell
-marimo edit notebooks/marimo_example.py
+marimo edit notebooks/01_statistical_theory.py
 ```
 
 Keep notebooks lightweight enough for browser execution after WASM export.
 
 ## WASM Export
 
-Export all source notebooks into `docs/notebooks/` before a local strict build:
+Build MkDocs first, then export all source notebooks into `site/marimo/`:
 
 ```powershell
+mkdocs build --strict
+New-Item -ItemType Directory -Force site/marimo
 Get-ChildItem notebooks -Filter *.py | ForEach-Object {
-  $name = $_.BaseName.Replace("_", "-")
-  marimo export html-wasm $_.FullName -o "docs/notebooks/$name" --mode run
+  marimo export html-wasm $_.FullName -o "site/marimo/$($_.BaseName).html" --mode run
 }
 mkdocs serve
 ```
@@ -60,7 +61,7 @@ mkdocs build --strict
 
 ## Publishing With GitHub Pages
 
-The workflow at `.github/workflows/deploy.yml` publishes the MkDocs build to GitHub Pages whenever `main` changes. It exports every `notebooks/*.py` file with `marimo export html-wasm` before the MkDocs build, so the static site includes executable notebook pages.
+The workflow at `.github/workflows/deploy.yml` publishes the MkDocs build to GitHub Pages whenever `main` changes. It builds MkDocs first, then exports every `notebooks/*.py` file with `marimo export html-wasm` into `site/marimo/`, so Markdown links can point at `marimo/<name>.html`.
 
 Repository setup:
 
@@ -74,6 +75,7 @@ The workflow uploads the generated `site/` directory as a Pages artifact and dep
 ## Adding Notebooks
 
 1. Add a marimo notebook under `notebooks/`.
-2. Add a link to its exported page in `docs/notebooks/index.md`.
-3. Add a short tutorial entry in `docs/tutorials/index.md` if the notebook needs context.
-4. Run the checks before publishing.
+2. Add a link to `marimo/<name>.html` from `docs/index.md` or `../marimo/<name>.html` from nested docs pages.
+3. Add it to `docs/notebooks/index.md`.
+4. Add context in the relevant `docs/tutorials/` module page.
+5. Run the checks before publishing.

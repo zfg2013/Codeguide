@@ -37,17 +37,16 @@ jobs:
       - name: Run structure checks
         run: python -m unittest discover -s tests
 
-      - name: Export marimo notebooks to WASM
-        run: |
-          for notebook in notebooks/*.py; do
-            export_name=$(basename "$notebook" .py | tr '_' '-')
-            mkdir -p "docs/notebooks/${export_name}"
-            marimo export html-wasm "$notebook" -o "docs/notebooks/${export_name}" --mode run
-            find "docs/notebooks/${export_name}" -name "CLAUDE.md" -delete
-          done
-
       - name: Build documentation
         run: mkdocs build --strict
+
+      - name: Export marimo notebooks to WASM
+        run: |
+          mkdir -p site/marimo
+          for notebook in notebooks/*.py; do
+            export_name=$(basename "$notebook" .py)
+            marimo export html-wasm "$notebook" -o "site/marimo/${export_name}.html" --mode run
+          done
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

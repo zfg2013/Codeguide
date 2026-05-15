@@ -1,10 +1,14 @@
 site_name: Codeguide
-site_description: A GitHub Pages tutorial site for executable marimo WASM notebooks.
+site_description: A GitHub Pages curriculum of executable marimo WASM notebooks.
 repo_name: zfg2013/Codeguide
 repo_url: https://github.com/zfg2013/Codeguide
 docs_dir: docs
 site_dir: site
 strict: true
+
+validation:
+  links:
+    not_found: ignore
 
 theme:
   name: material
@@ -33,4 +37,8 @@ nav:
   - Home: index.md
   - Tutorials:
       - Overview: tutorials/index.md
-  - Notebooks: notebooks/index.md
+      - Statistical Theory: tutorials/statistical-theory.md
+      - Sequencing: tutorials/sequencing.md
+      - Machine Learning: tutorials/machine-learning.md
+      - Molecular Design Engineering: tutorials/molecular-design-engineering.md
+  - Notebook Library: notebooks/index.md
