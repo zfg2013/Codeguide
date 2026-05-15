@@ -6,41 +6,48 @@ app = marimo.App(width="medium")
 
 @app.cell
 def _():
+    import math
     import marimo as mo
-    return mo
+    return math, mo
 
 
 @app.cell
-def _(mo):
-    mo.md("""
-    # Statistical Theory
-
-    ## Learning goals
-    Placeholder: add goals about probability, uncertainty, estimation, and decisions.
-
-    ## Background
-    Placeholder: introduce the statistical ideas learners need before using the example.
-
-    ## Interactive example
-    Placeholder: replace the simple summary below with an interactive statistical activity.
-
-    ## Exercise
-    Placeholder: ask learners to modify the assumptions and interpret the result.
-
-    ## Notes for future editing
-    Placeholder: add references, diagrams, and domain-specific datasets.
-    """)
-    return
-
-
-@app.cell
-def _():
-    sample_values = [2, 4, 6, 8]
-    example_total = sum(sample_values)
+def _(math, mo):
+    sample_values = [1, 0, 1, 1, 0, 1, 1, 0, 1, 1]
     example_count = len(sample_values)
-    example_mean = example_total / example_count
-    {"count": example_count, "total": example_total, "mean": example_mean}
-    return example_count, example_mean, example_total, sample_values
+    example_total = sum(sample_values)
+    p_hat = example_total / example_count
+    se = math.sqrt(p_hat * (1 - p_hat) / example_count)
+    ci = (p_hat - 1.96 * se, p_hat + 1.96 * se)
+    z = (p_hat - 0.5) / se
+    p_value = 2 * (1 - 0.5 * (1 + math.erf(abs(z) / math.sqrt(2))))
+    mo.md(f"""
+# Statistical Theory
+
+Short intro: estimate uncertainty from a tiny synthetic Bernoulli sample.
+
+## Learning goals
+Understand sampling, confidence intervals, and a toy p-value.
+
+## Background
+Each value is a synthetic success or failure.
+
+## Interactive example
+| Quantity | Value |
+| --- | ---: |
+| Successes | {example_total} |
+| Trials | {example_count} |
+| Probability estimate | {p_hat:.2f} |
+| 95 percent CI | ({ci[0]:.2f}, {ci[1]:.2f}) |
+| Approximate p-value vs 0.50 | {p_value:.3f} |
+
+## Exercise
+Change two successes to failures and rerun the summary.
+
+## Notes for future editing
+Add sliders for sample size and true probability.
+""")
+    return example_count, example_total, sample_values
 
 
 if __name__ == "__main__":

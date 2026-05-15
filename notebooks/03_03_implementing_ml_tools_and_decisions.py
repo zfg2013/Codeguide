@@ -6,39 +6,47 @@ app = marimo.App(width="medium")
 
 @app.cell
 def _():
+    import statistics
     import marimo as mo
-    return mo
+    return mo, statistics
 
 
 @app.cell
-def _(mo):
-    mo.md("""
-    # Implementing ML Tools And Decisions
+def _(mo, statistics):
+    training = [(0.2, 0), (0.4, 0), (0.9, 1), (1.1, 1)]
+    neg = statistics.mean(value for value, label in training if label == 0)
+    pos = statistics.mean(value for value, label in training if label == 1)
+    threshold = (neg + pos) / 2
+    candidates = [0.3, 0.6, 0.95]
+    rows = [(value, int(value >= threshold)) for value in candidates]
+    sample_values = candidates
+    example_count = len(candidates)
+    example_total = sum(prediction for _, prediction in rows)
+    table = "\n".join(f"| {value} | {prediction} |" for value, prediction in rows)
+    mo.md(f"""
+# Implementing ML Tools And Decisions
 
-    ## Learning goals
-    Placeholder: connect modeling tools to explicit decisions and constraints.
+Short intro: implement a threshold classifier from scratch.
 
-    ## Background
-    Placeholder: introduce baselines, thresholds, and model selection.
+## Learning goals
+Build a simple decision rule without heavyweight packages.
 
-    ## Interactive example
-    Placeholder: apply a simple decision threshold.
+## Background
+Training points have one synthetic feature and a binary label.
 
-    ## Exercise
-    Placeholder: ask learners to vary the threshold and inspect tradeoffs.
+## Interactive example
+Learned threshold: {threshold:.2f}
 
-    ## Notes for future editing
-    Placeholder: add model cards, decision tables, and uncertainty notes.
-    """)
-    return
+| Candidate signal | Predicted class |
+| ---: | ---: |
+{table}
 
+## Exercise
+Add a candidate exactly at the threshold.
 
-@app.cell
-def _():
-    sample_values = [0.2, 0.8, 0.6, 0.4]
-    example_total = sum(score >= 0.5 for score in sample_values)
-    example_count = len(sample_values)
-    {"predictions": example_count, "selected": example_total}
+## Notes for future editing
+Add regression from scratch later.
+""")
     return example_count, example_total, sample_values
 
 

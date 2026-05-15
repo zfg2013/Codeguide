@@ -12,33 +12,42 @@ def _():
 
 @app.cell
 def _(mo):
-    mo.md("""
-    # Further Lead Hit QC
-
-    ## Learning goals
-    Placeholder: evaluate hits for quality, robustness, and follow-up feasibility.
-
-    ## Background
-    Placeholder: introduce counter-screens, artifacts, and confirmatory assays.
-
-    ## Interactive example
-    Placeholder: summarize simple QC pass flags.
-
-    ## Exercise
-    Placeholder: ask learners to remove problematic hits before selection.
-
-    ## Notes for future editing
-    Placeholder: add PAINS, aggregation, and assay-interference examples.
-    """)
-    return
-
-
-@app.cell
-def _():
-    sample_values = [True, True, False, True, False]
+    hydrophobic = set("AILMFWV")
+    charged = {"K": 1, "R": 1, "D": -1, "E": -1}
+    hits = ["AKLV", "KKLL", "DDWY", "GPGS", "AVAV"]
+    rows = []
+    for peptide in hits:
+        charge = sum(charged.get(aa, 0) for aa in peptide)
+        hydrophobicity = sum(aa in hydrophobic for aa in peptide) / len(peptide)
+        diversity = len(set(peptide)) / len(peptide)
+        pass_qc = abs(charge) <= 2 and hydrophobicity <= 0.75 and diversity >= 0.5
+        rows.append((peptide, charge, hydrophobicity, diversity, pass_qc))
+    sample_values = [1 if row[-1] else 0 for row in rows]
+    example_count = len(rows)
     example_total = sum(sample_values)
-    example_count = len(sample_values)
-    {"hits_reviewed": example_count, "qc_pass": example_total}
+    table = "\n".join(f"| {pep} | {charge} | {hydro:.2f} | {diversity:.2f} | {pass_qc} |" for pep, charge, hydro, diversity, pass_qc in rows)
+    mo.md(f"""
+# Further Lead Hit QC
+
+Short intro: QC peptide hits for diversity, charge, hydrophobicity, and length.
+
+## Learning goals
+Apply clear pass/fail gates before selection.
+
+## Background
+The QC rules are synthetic and inspectable.
+
+## Interactive example
+| Peptide | Charge | Hydrophobic fraction | Diversity | Pass QC |
+| --- | ---: | ---: | ---: | --- |
+{table}
+
+## Exercise
+Tighten the hydrophobicity threshold to 0.50.
+
+## Notes for future editing
+Add synthesis and liability flags later.
+""")
     return example_count, example_total, sample_values
 
 

@@ -6,41 +6,42 @@ app = marimo.App(width="medium")
 
 @app.cell
 def _():
+    import statistics
     import marimo as mo
-    return mo
+    return mo, statistics
 
 
 @app.cell
-def _(mo):
-    mo.md("""
-    # Machine Learning Exploratory Data Analysis
-
-    ## Learning goals
-    Placeholder: inspect distributions, missingness, leakage, and feature quality.
-
-    ## Background
-    Placeholder: explain how EDA shapes modeling decisions.
-
-    ## Interactive example
-    Placeholder: summarize simple feature values.
-
-    ## Exercise
-    Placeholder: ask learners to identify a risky feature.
-
-    ## Notes for future editing
-    Placeholder: add visualization and leakage examples.
-    """)
-    return
-
-
-@app.cell
-def _():
-    sample_values = [5, 7, 7, 10]
-    example_total = sum(sample_values)
+def _(mo, statistics):
+    features = {"signal": [0.2, 0.3, 0.8, 0.9, 1.1], "noise": [4.2, 4.0, 4.1, 8.5, 4.3], "batch": [1, 1, 2, 2, 2]}
+    rows = [(name, min(values), max(values), statistics.mean(values)) for name, values in features.items()]
+    sample_values = features["signal"]
     example_count = len(sample_values)
-    example_mean = example_total / example_count
-    {"rows": example_count, "mean_feature_value": example_mean}
-    return example_count, example_mean, example_total, sample_values
+    example_total = sum(sample_values)
+    table = "\n".join(f"| {name} | {low} | {high} | {mean:.2f} |" for name, low, high, mean in rows)
+    mo.md(f"""
+# Exploratory Data Analysis
+
+Short intro: inspect synthetic feature ranges before modeling.
+
+## Learning goals
+Summarize features and spot questionable values.
+
+## Background
+The table is a small synthetic ML feature set.
+
+## Interactive example
+| Feature | Min | Max | Mean |
+| --- | ---: | ---: | ---: |
+{table}
+
+## Exercise
+Which feature has an outlier-like value?
+
+## Notes for future editing
+Add feature-pair summaries later.
+""")
+    return example_count, example_total, sample_values
 
 
 if __name__ == "__main__":

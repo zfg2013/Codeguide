@@ -6,39 +6,42 @@ app = marimo.App(width="medium")
 
 @app.cell
 def _():
+    from collections import Counter
     import marimo as mo
-    return mo
+    return Counter, mo
 
 
 @app.cell
-def _(mo):
-    mo.md("""
-    # Counting Mapped Annotated Reads
+def _(Counter, mo):
+    annotations = {"read_001": "GeneA", "read_002": "GeneB", "read_003": "GeneA", "read_004": "GeneC"}
+    mapped_reads = ["read_001", "read_002", "read_003", "read_005", "read_004", "read_003"]
+    counts = Counter(annotations.get(read, "unassigned") for read in mapped_reads)
+    sample_values = list(counts.values())
+    example_count = len(mapped_reads)
+    example_total = sum(count for gene, count in counts.items() if gene != "unassigned")
+    table = "\n".join(f"| {gene} | {count} |" for gene, count in sorted(counts.items()))
+    mo.md(f"""
+# Counting Mapped Annotated Reads
 
-    ## Learning goals
-    Placeholder: explain how aligned reads become feature counts.
+Short intro: convert mapped read IDs into a gene-count table.
 
-    ## Background
-    Placeholder: introduce annotations, genomic features, and count matrices.
+## Learning goals
+Connect read assignment to gene counts.
 
-    ## Interactive example
-    Placeholder: compute basic count totals across features.
+## Background
+A small annotation dictionary maps reads to genes.
 
-    ## Exercise
-    Placeholder: ask learners to compare counts across samples.
+## Interactive example
+| Gene | Count |
+| --- | ---: |
+{table}
 
-    ## Notes for future editing
-    Placeholder: add strandedness, multimapping, and annotation-version examples.
-    """)
-    return
+## Exercise
+Add an annotation for `read_005` and rerun the table.
 
-
-@app.cell
-def _():
-    sample_values = [1200, 1500, 900]
-    example_total = sum(sample_values)
-    example_count = len(sample_values)
-    {"features": example_count, "total_counts": example_total}
+## Notes for future editing
+Add strandedness and multimapping examples.
+""")
     return example_count, example_total, sample_values
 
 

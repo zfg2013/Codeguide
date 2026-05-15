@@ -12,35 +12,38 @@ def _():
 
 @app.cell
 def _(mo):
-    mo.md("""
-    # Sequence Alignment
-
-    ## Learning goals
-    Placeholder: explain alignment, mapping rate, and reference choice.
-
-    ## Background
-    Placeholder: introduce reads, reference genomes, indexes, and aligner outputs.
-
-    ## Interactive example
-    Placeholder: summarize alignment metrics for a small batch.
-
-    ## Exercise
-    Placeholder: ask learners to flag low-quality samples.
-
-    ## Notes for future editing
-    Placeholder: add aligner-specific parameters and QC plots.
-    """)
-    return
-
-
-@app.cell
-def _():
-    sample_values = [94, 88, 91]
+    reference = "ACGTACGTGACCTTACGT"
+    reads = ["ACGT", "GACC", "TTAC", "GGGG", "TACG"]
+    alignments = [(read, reference.find(read)) for read in reads]
+    sample_values = [1 if start >= 0 else 0 for _, start in alignments]
+    example_count = len(reads)
     example_total = sum(sample_values)
-    example_count = len(sample_values)
-    example_mean = example_total / example_count
-    {"samples": example_count, "mean_mapping_rate": example_mean}
-    return example_count, example_mean, example_total, sample_values
+    table = "\n".join(f"| {read} | {'mapped' if start >= 0 else 'unmapped'} | {start if start >= 0 else '-'} |" for read, start in alignments)
+    mo.md(f"""
+# Sequence Alignment
+
+Short intro: map toy reads to a tiny reference with exact string matching.
+
+## Learning goals
+Explain mapped and unmapped reads.
+
+## Background
+This is a teaching simplification, not a production aligner.
+
+## Interactive example
+Reference: `{reference}`
+
+| Read | Status | Start |
+| --- | --- | ---: |
+{table}
+
+## Exercise
+Add a read with one mismatch and predict whether it maps.
+
+## Notes for future editing
+Add mismatch counts and seed matching.
+""")
+    return example_count, example_total, sample_values
 
 
 if __name__ == "__main__":

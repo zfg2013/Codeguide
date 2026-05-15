@@ -12,33 +12,34 @@ def _():
 
 @app.cell
 def _(mo):
-    mo.md("""
-    # From ML To Experimentation
+    candidates = [("A", 0.92, 0.20, 2), ("B", 0.81, 0.70, 3), ("C", 0.66, 0.90, 1), ("D", 0.74, 0.40, 2)]
+    ranked = sorted(((name, score, novelty, cost, 0.6 * score + 0.3 * novelty - 0.05 * cost) for name, score, novelty, cost in candidates), key=lambda row: row[4], reverse=True)
+    sample_values = [priority for *_, priority in ranked]
+    example_count = len(ranked)
+    example_total = sum(sample_values)
+    table = "\n".join(f"| {name} | {score} | {novelty} | {cost} | {priority:.3f} |" for name, score, novelty, cost, priority in ranked)
+    mo.md(f"""
+# From ML To Experimentation
 
-    ## Learning goals
-    Placeholder: translate model outputs into experimental priorities.
+Short intro: turn model scores into an experimental priority list.
 
-    ## Background
-    Placeholder: introduce uncertainty, feasibility, and resource constraints.
+## Learning goals
+Balance confidence, novelty, and cost.
 
-    ## Interactive example
-    Placeholder: count candidates above a simple priority threshold.
+## Background
+Candidates and scores are synthetic.
 
-    ## Exercise
-    Placeholder: ask learners to justify a shortlist for experimentation.
+## Interactive example
+| Candidate | Model score | Novelty | Cost | Priority |
+| --- | ---: | ---: | ---: | ---: |
+{table}
 
-    ## Notes for future editing
-    Placeholder: add assay constraints and decision-review templates.
-    """)
-    return
+## Exercise
+Increase the cost penalty and rerank.
 
-
-@app.cell
-def _():
-    sample_values = [0.9, 0.3, 0.75, 0.55]
-    example_total = sum(score >= 0.7 for score in sample_values)
-    example_count = len(sample_values)
-    {"candidates": example_count, "experiment_ready": example_total}
+## Notes for future editing
+Add uncertainty and replicate planning.
+""")
     return example_count, example_total, sample_values
 
 

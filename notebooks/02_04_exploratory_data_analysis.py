@@ -6,41 +6,46 @@ app = marimo.App(width="medium")
 
 @app.cell
 def _():
+    import statistics
     import marimo as mo
-    return mo
+    return mo, statistics
 
 
 @app.cell
-def _(mo):
-    mo.md("""
-    # Sequencing Exploratory Data Analysis
+def _(mo, statistics):
+    expression = {"GeneA": [12, 14, 28, 30], "GeneB": [7, 8, 6, 7], "GeneC": [20, 19, 9, 10]}
+    samples = ["ctrl_1", "ctrl_2", "treat_1", "treat_2"]
+    totals = [sum(values[i] for values in expression.values()) for i in range(len(samples))]
+    sample_values = totals
+    example_count = len(samples)
+    example_total = sum(totals)
+    table = "\n".join(f"| {sample} | {total} | {total / example_total:.2f} |" for sample, total in zip(samples, totals))
+    means = ", ".join(f"{gene}: {statistics.mean(values):.1f}" for gene, values in expression.items())
+    mo.md(f"""
+# Exploratory Data Analysis
 
-    ## Learning goals
-    Placeholder: identify structure, outliers, and batch effects in count data.
+Short intro: inspect a synthetic expression matrix before modeling.
 
-    ## Background
-    Placeholder: introduce normalization, sample distance, and exploratory plots.
+## Learning goals
+Summarize library size and gene-level averages.
 
-    ## Interactive example
-    Placeholder: summarize sample-level library sizes.
+## Background
+Counts are synthetic values for three genes across four samples.
 
-    ## Exercise
-    Placeholder: ask learners to choose samples for follow-up review.
+## Interactive example
+| Sample | Total counts | Library share |
+| --- | ---: | ---: |
+{table}
 
-    ## Notes for future editing
-    Placeholder: add PCA, heatmaps, and metadata-driven filtering.
-    """)
-    return
+Gene means: {means}.
 
+## Exercise
+Which sample would you inspect first if total counts were low?
 
-@app.cell
-def _():
-    sample_values = [3.2, 3.8, 2.9, 4.1]
-    example_total = sum(sample_values)
-    example_count = len(sample_values)
-    example_mean = example_total / example_count
-    {"samples": example_count, "mean_library_size_millions": round(example_mean, 2)}
-    return example_count, example_mean, example_total, sample_values
+## Notes for future editing
+Add a small bar chart or PCA-style example.
+""")
+    return example_count, example_total, sample_values
 
 
 if __name__ == "__main__":

@@ -12,33 +12,41 @@ def _():
 
 @app.cell
 def _(mo):
-    mo.md("""
-    # Techniques Strategies Molecular Design
-
-    ## Learning goals
-    Placeholder: compare design strategies for molecular optimization.
-
-    ## Background
-    Placeholder: introduce library diversity, constraints, and scoring.
-
-    ## Interactive example
-    Placeholder: summarize a simple set of strategy scores.
-
-    ## Exercise
-    Placeholder: ask learners to choose a strategy for a constrained campaign.
-
-    ## Notes for future editing
-    Placeholder: add docking, generative, and medicinal chemistry examples.
-    """)
-    return
-
-
-@app.cell
-def _():
-    sample_values = [3, 5, 4]
+    hydrophobic = set("AILMFWV")
+    charged = {"K": 1, "R": 1, "D": -1, "E": -1}
+    peptides = ["AKLV", "DDWY", "KRFV", "GPGS"]
+    rows = []
+    for peptide in peptides:
+        charge = sum(charged.get(aa, 0) for aa in peptide)
+        hydrophobicity = sum(aa in hydrophobic for aa in peptide) / len(peptide)
+        score = 0.5 * hydrophobicity + 0.2 * abs(charge) + 0.05 * len(peptide)
+        rows.append((peptide, charge, hydrophobicity, score))
+    sample_values = [score for *_, score in rows]
+    example_count = len(rows)
     example_total = sum(sample_values)
-    example_count = len(sample_values)
-    {"strategies": example_count, "combined_score": example_total}
+    table = "\n".join(f"| {pep} | {charge} | {hydro:.2f} | {score:.2f} |" for pep, charge, hydro, score in rows)
+    mo.md(f"""
+# Techniques And Strategies In Molecular Design
+
+Short intro: score toy peptides with transparent property rules.
+
+## Learning goals
+Relate charge, hydrophobicity, and length to prioritization.
+
+## Background
+The peptide properties are simple teaching descriptors.
+
+## Interactive example
+| Peptide | Charge | Hydrophobic fraction | Toy score |
+| --- | ---: | ---: | ---: |
+{table}
+
+## Exercise
+Add one acidic and one basic peptide.
+
+## Notes for future editing
+Add validated descriptors only when needed.
+""")
     return example_count, example_total, sample_values
 
 

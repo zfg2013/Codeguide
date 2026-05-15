@@ -6,39 +6,42 @@ app = marimo.App(width="medium")
 
 @app.cell
 def _():
+    import statistics
     import marimo as mo
-    return mo
+    return mo, statistics
 
 
 @app.cell
-def _(mo):
-    mo.md("""
-    # What Is Machine Learning
-
-    ## Learning goals
-    Placeholder: explain features, labels, predictions, and evaluation.
-
-    ## Background
-    Placeholder: distinguish modeling goals from statistical description.
-
-    ## Interactive example
-    Placeholder: compute a simple baseline prediction.
-
-    ## Exercise
-    Placeholder: ask learners to define inputs, outputs, and success criteria.
-
-    ## Notes for future editing
-    Placeholder: add examples from classification, regression, and ranking.
-    """)
-    return
-
-
-@app.cell
-def _():
-    sample_values = [0, 1, 1, 0, 1]
+def _(mo, statistics):
+    samples = [("A", 1.2, "low"), ("B", 1.4, "low"), ("C", 3.9, "high"), ("D", 4.2, "high")]
+    threshold = statistics.mean(feature for _, feature, _ in samples)
+    rows = [(name, label, "above_mean" if feature >= threshold else "below_mean") for name, feature, label in samples]
+    sample_values = [feature for _, feature, _ in samples]
+    example_count = len(samples)
     example_total = sum(sample_values)
-    example_count = len(sample_values)
-    {"examples": example_count, "positive_labels": example_total}
+    table = "\n".join(f"| {name} | {label} | {group} |" for name, label, group in rows)
+    mo.md(f"""
+# What Is Machine Learning?
+
+Short intro: contrast supervised labels with an unsupervised grouping rule.
+
+## Learning goals
+Distinguish labels from learned or discovered groups.
+
+## Background
+The table uses one synthetic feature.
+
+## Interactive example
+| Sample | Supervised label | Unsupervised group |
+| --- | --- | --- |
+{table}
+
+## Exercise
+Add a fifth sample between the clusters.
+
+## Notes for future editing
+Add two-feature plots later.
+""")
     return example_count, example_total, sample_values
 
 

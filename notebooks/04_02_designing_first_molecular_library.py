@@ -6,39 +6,41 @@ app = marimo.App(width="medium")
 
 @app.cell
 def _():
+    from itertools import product
     import marimo as mo
-    return mo
+    return mo, product
 
 
 @app.cell
-def _(mo):
-    mo.md("""
-    # Designing First Molecular Library
-
-    ## Learning goals
-    Placeholder: define first-pass molecular library design criteria.
-
-    ## Background
-    Placeholder: introduce diversity, synthesizability, and target hypotheses.
-
-    ## Interactive example
-    Placeholder: count molecules passing simple design criteria.
-
-    ## Exercise
-    Placeholder: ask learners to revise criteria under a budget constraint.
-
-    ## Notes for future editing
-    Placeholder: add scaffold, property, and vendor-availability examples.
-    """)
-    return
-
-
-@app.cell
-def _():
-    sample_values = [True, False, True, True]
+def _(mo, product):
+    positions = [["A", "G"], ["K", "D"], ["L", "V"]]
+    library = ["".join(peptide) for peptide in product(*positions)]
+    sample_values = [len(peptide) for peptide in library]
+    example_count = len(library)
     example_total = sum(sample_values)
-    example_count = len(sample_values)
-    {"library_candidates": example_count, "selected": example_total}
+    table = "\n".join(f"| {index} | {peptide} | {len(peptide)} |" for index, peptide in enumerate(library, 1))
+    mo.md(f"""
+# Designing A First Molecular Library
+
+Short intro: generate a tiny combinatorial peptide library.
+
+## Learning goals
+Understand position-wise library enumeration.
+
+## Background
+Allowed residues are synthetic design choices.
+
+## Interactive example
+| Design | Peptide | Length |
+| ---: | --- | ---: |
+{table}
+
+## Exercise
+Add a third residue at position 1 and recalculate size.
+
+## Notes for future editing
+Add synthesis-exclusion rules later.
+""")
     return example_count, example_total, sample_values
 
 

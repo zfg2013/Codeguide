@@ -10,25 +10,25 @@ Codeguide is a static tutorial curriculum for executable marimo WASM notebooks. 
 
     Foundations for probability, estimation, uncertainty, and decision-making.
 
-    [Open notebook](marimo/01_statistical_theory.html)
+    [Start topic module](tutorials/statistical-theory.md)
 
 - **Sequencing**
 
     A practical sequencing workflow from instrument output to validation.
 
-    [Start sequencing module](tutorials/sequencing.md)
+    [Start topic module](tutorials/sequencing.md)
 
 - **Machine Learning**
 
     Exploratory analysis, model decisions, validation, and experiment handoff.
 
-    [Open first ML notebook](marimo/03_01_what_is_machine_learning.html)
+    [Start topic module](tutorials/machine-learning.md)
 
-- **Molecular Design Engineering**
+- **Molecular Design & Engineering**
 
     Library design, screening, hit QC, and selection for experimentation.
 
-    [Open first design notebook](marimo/04_01_techniques_strategies_molecular_design.html)
+    [Start topic module](tutorials/molecular-design-engineering.md)
 
 </div>
 
