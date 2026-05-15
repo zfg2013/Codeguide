@@ -107,24 +107,32 @@ class TutorialSiteStructureTest(unittest.TestCase):
             ROOT / "docs" / "index.md",
             ROOT / "docs" / "notebooks" / "index.md",
         ]
-        nested_docs = [
+        tutorial_index_docs = [
             ROOT / "docs" / "tutorials" / "index.md",
+        ]
+        tutorial_module_docs = [
             *(ROOT / page for page in TUTORIAL_PAGES),
         ]
 
         root_text = "\n".join(path.read_text(encoding="utf-8") for path in root_docs)
-        nested_text = "\n".join(
-            path.read_text(encoding="utf-8") for path in nested_docs
+        tutorial_index_text = "\n".join(
+            path.read_text(encoding="utf-8") for path in tutorial_index_docs
+        )
+        tutorial_module_text = "\n".join(
+            path.read_text(encoding="utf-8") for path in tutorial_module_docs
         )
 
         for notebook in NOTEBOOKS:
             name = export_name(notebook)
             self.assertIn(f"marimo/{name}.html", root_text)
-            self.assertIn(f"../marimo/{name}.html", nested_text)
+            self.assertIn(f"../../marimo/{name}.html", tutorial_module_text)
 
-        all_docs = root_text + "\n" + nested_text
+        self.assertIn("../../marimo/<name>.html", tutorial_index_text)
+
+        all_docs = root_text + "\n" + tutorial_index_text + "\n" + tutorial_module_text
         self.assertNotRegex(all_docs, r"\]\([^)]*notebooks/marimo-example/")
         self.assertNotRegex(all_docs, r"\]\([^)]*notebooks/[^)]*\.html")
+        self.assertNotRegex(tutorial_module_text, r"\]\(\.\./marimo/[^)]*\.html\)")
 
     def test_tutorial_pages_have_required_placeholders(self):
         for page in TUTORIAL_PAGES:

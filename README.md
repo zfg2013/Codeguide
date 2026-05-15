@@ -75,7 +75,7 @@ The workflow uploads the generated `site/` directory as a Pages artifact and dep
 ## Adding Notebooks
 
 1. Add a marimo notebook under `notebooks/`.
-2. Add a link to `marimo/<name>.html` from `docs/index.md` or `../marimo/<name>.html` from nested docs pages.
+2. Add a link to `marimo/<name>.html` from `docs/index.md`, `../marimo/<name>.html` from `docs/notebooks/index.md`, or `../../marimo/<name>.html` from tutorial module pages.
 3. Add it to `docs/notebooks/index.md`.
 4. Add context in the relevant `docs/tutorials/` module page.
 5. Run the checks before publishing.

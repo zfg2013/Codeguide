@@ -16,7 +16,7 @@ This module introduces the statistical vocabulary used throughout the rest of th
 
 | Notebook | Exported WASM page |
 | --- | --- |
-| Statistical Theory | [Open notebook](../marimo/01_statistical_theory.html) |
+| Statistical Theory | [Open notebook](../../marimo/01_statistical_theory.html) |
 
 ## Exercises
 

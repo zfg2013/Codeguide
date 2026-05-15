@@ -16,13 +16,13 @@ This module follows sequencing data from instrument output through alignment, co
 
 | Notebook | Exported WASM page |
 | --- | --- |
-| Getting Data From Sequencer | [Open notebook](../marimo/02_01_getting_data_from_sequencer.html) |
-| Sequence Alignment | [Open notebook](../marimo/02_02_sequence_alignment.html) |
-| Counting Mapped Annotated Reads | [Open notebook](../marimo/02_03_counting_mapped_annotated_reads.html) |
-| Exploratory Data Analysis | [Open notebook](../marimo/02_04_exploratory_data_analysis.html) |
-| Differential Analysis | [Open notebook](../marimo/02_05_differential_analysis.html) |
-| Enrichment Analysis | [Open notebook](../marimo/02_06_enrichment_analysis.html) |
-| Cross Validation | [Open notebook](../marimo/02_07_cross_validation.html) |
+| Getting Data From Sequencer | [Open notebook](../../marimo/02_01_getting_data_from_sequencer.html) |
+| Sequence Alignment | [Open notebook](../../marimo/02_02_sequence_alignment.html) |
+| Counting Mapped Annotated Reads | [Open notebook](../../marimo/02_03_counting_mapped_annotated_reads.html) |
+| Exploratory Data Analysis | [Open notebook](../../marimo/02_04_exploratory_data_analysis.html) |
+| Differential Analysis | [Open notebook](../../marimo/02_05_differential_analysis.html) |
+| Enrichment Analysis | [Open notebook](../../marimo/02_06_enrichment_analysis.html) |
+| Cross Validation | [Open notebook](../../marimo/02_07_cross_validation.html) |
 
 ## Exercises
 

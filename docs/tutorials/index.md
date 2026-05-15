@@ -12,6 +12,6 @@ Codeguide tutorials are organized as executable marimo WASM modules. Each module
 ## Add A Tutorial
 
 1. Add a marimo notebook under `notebooks/`.
-2. Link its exported `../marimo/<name>.html` page from the relevant tutorial module.
+2. Link its exported `../../marimo/<name>.html` page from the relevant tutorial module.
 3. Add it to the notebook library.
 4. Run the tests and strict MkDocs build before publishing.

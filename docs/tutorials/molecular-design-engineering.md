@@ -16,11 +16,11 @@ This module scaffolds a molecular design workflow from strategy selection throug
 
 | Notebook | Exported WASM page |
 | --- | --- |
-| Techniques Strategies Molecular Design | [Open notebook](../marimo/04_01_techniques_strategies_molecular_design.html) |
-| Designing First Molecular Library | [Open notebook](../marimo/04_02_designing_first_molecular_library.html) |
-| Screening First Molecular Library | [Open notebook](../marimo/04_03_screening_first_molecular_library.html) |
-| Further Lead Hit QC | [Open notebook](../marimo/04_04_further_lead_hit_qc.html) |
-| Hit Selection For Experimentation | [Open notebook](../marimo/04_05_hit_selection_for_experimentation.html) |
+| Techniques Strategies Molecular Design | [Open notebook](../../marimo/04_01_techniques_strategies_molecular_design.html) |
+| Designing First Molecular Library | [Open notebook](../../marimo/04_02_designing_first_molecular_library.html) |
+| Screening First Molecular Library | [Open notebook](../../marimo/04_03_screening_first_molecular_library.html) |
+| Further Lead Hit QC | [Open notebook](../../marimo/04_04_further_lead_hit_qc.html) |
+| Hit Selection For Experimentation | [Open notebook](../../marimo/04_05_hit_selection_for_experimentation.html) |
 
 ## Exercises
 
